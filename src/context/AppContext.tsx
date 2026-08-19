@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 interface ProfileState {
   major: string;
@@ -14,11 +14,25 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [profile, setProfile] = useState<ProfileState>({
-    major: 'Computer Engineering',
-    workDays: 'Mon, Wed, Fri',
-    deadline: '2026-07-15'
+  const [profile, setProfile]  = useState<ProfileState>(() => {
+    const saved = localStorage.getItem('unicortex_profile');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return {
+      major: 'Computer Engineering',
+      workDays: 'Mon, Wed, Fri',
+      deadline: '2026-07-15'
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('unicortex_profile', JSON.stringify(profile));
+  }, [profile]);
 
   const updateProfile = (newProfile: Partial<ProfileState>) => {
     setProfile(prev => ({ ...prev, ...newProfile }));
