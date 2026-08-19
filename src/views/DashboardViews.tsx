@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { useApp } from '../context/AppContext'; 
+
 export default function DashboardView() {
-  const activeProjects = [
+  const { profile } = useApp(); 
+  const [activeProjects] = useState([
     { id: 1, title: 'AI-Powered Study Assistant', deadline: '2 Days Left', progress: 75, status: 'In Progress' },
     { id: 2, title: 'Distributed Systems Microservices', deadline: '5 Days Left', progress: 40, status: 'Reviewing' },
-  ];
+  ]);
 
   return (
     <div className="space-y-6">
@@ -10,15 +14,15 @@ export default function DashboardView() {
         <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
         <h3 className="text-xl font-bold text-slate-100 mb-2">Welcome back, Engineer! 🧠</h3>
         <p className="text-slate-400 text-sm leading-relaxed">
-          UniCortex OS is active. Monitoring your academic workload, active deadlines, and cognitive performance.
+          UniCortex OS is active for <span className="text-cyan-300 font-medium">{profile.major}</span>. Monitoring your academic workload, active deadlines, and focus days ({profile.workDays}).
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { title: 'Workload Pressure', desc: 'Optimal - No Critical Deadlines', color: 'border-emerald-500/30 bg-emerald-500/5', badge: 'Normal' },
+          { title: 'Workload Pressure', desc: `Optimized for ${profile.major}`, color: 'border-emerald-500/30 bg-emerald-500/5', badge: 'Normal' },
           { title: 'Active Projects', desc: '2 Repositories in Development', color: 'border-cyan-500/30 bg-cyan-500/5', badge: 'Active' },
-          { title: 'Cognitive Focus', desc: 'Energy Level: High Performance', color: 'border-blue-500/30 bg-blue-500/5', badge: 'Optimal' },
+          { title: 'Cognitive Focus', desc: `Schedule: ${profile.workDays}`, color: 'border-blue-500/30 bg-blue-500/5', badge: 'Optimal' },
         ].map((card, i) => (
           <div key={i} className={`p-4 rounded-xl border ${card.color} backdrop-blur-sm flex flex-col justify-between`}>
             <div>

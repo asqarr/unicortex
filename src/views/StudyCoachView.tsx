@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useApp } from '../context/AppContext'; 
 
 export default function StudyCoachView() {
-  const [techniques, setTechniques] = useState([
+  const { profile } = useApp(); 
+  const [techniques] = useState([
     { id: 1, name: 'Feynman Technique', description: 'Simplify complex concepts by explaining them in plain English as if teaching someone else.', status: 'Recommended' },
     { id: 2, name: 'Active Recall', description: 'Test yourself actively instead of passive reading to maximize memory retention in long-term storage.', status: 'Active' },
     { id: 3, name: 'Pomodoro Focus Session', description: '25 minutes of deep focus followed by a 5-minute cognitive break to prevent mental fatigue.', status: 'Ready' },
@@ -12,7 +14,7 @@ export default function StudyCoachView() {
       <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 backdrop-blur-md">
         <h3 className="text-lg font-bold text-cyan-400 mb-2">🎯 Study Coach & Cognitive Focus</h3>
         <p className="text-sm text-slate-400 leading-relaxed">
-          Smart learning method recommendations and dynamic focus modules tailored to optimize your academic performance and knowledge retention.
+          Smart learning methods tailored for <span className="text-cyan-300 font-medium">{profile.major}</span>. Optimized for focus days: {profile.workDays}.
         </p>
       </div>
 

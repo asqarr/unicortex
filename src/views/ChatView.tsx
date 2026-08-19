@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useApp } from '../context/AppContext';
 
 interface Message {
   id: number;
@@ -7,8 +8,9 @@ interface Message {
 }
 
 export default function ChatView() {
+  const { profile } = useApp();
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, sender: 'ai', text: 'Hello! I am UniCortex Assistant. How can I help you with your studies or code today?' }
+    { id: 1, sender: 'ai', text: `Hello! I am UniCortex Assistant. I see your active major is ${profile.major}. How can I help you with your studies or code today?` }
   ]);
   const [input, setInput] = useState('');
 
@@ -24,7 +26,7 @@ export default function ChatView() {
       const aiResponse: Message = { 
         id: Date.now() + 1, 
         sender: 'ai', 
-        text: 'This is a simulated AI response. Once connected to the backend API, real intelligent responses will appear here!' 
+        text: `Based on your profile in ${profile.major}, I've analyzed your query. This is a simulated response tailored to your focus days (${profile.workDays}). Once connected to the backend API, real intelligent responses will appear here!` 
       };
       setMessages(prev => [...prev, aiResponse]);
     }, 1000);
@@ -35,7 +37,7 @@ export default function ChatView() {
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
         <div>
           <h3 className="text-lg font-bold text-cyan-400">🤖 Cortex AI Assistant</h3>
-          <p className="text-xs text-slate-400">Direct academic and technical query interface</p>
+          <p className="text-xs text-slate-400">Connected to profile: <span className="text-cyan-300 font-medium">{profile.major}</span></p>
         </div>
         <span className="text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
           Simulated Mode
