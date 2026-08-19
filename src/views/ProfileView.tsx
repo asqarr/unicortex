@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import { useApp } from '../context/AppContext';
 
 export default function ProfileView() {
-  const [profile, setProfile] = useState({
-    major: 'Computer Engineering',
-    workDays: 'Mon, Wed, Fri',
-    deadline: ''
-  });
+  const { profile, updateProfile } = useApp();
+  const [formData, setFormData] = useState(profile);
+  const [savedMessage, setSavedMessage] = useState(false);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`System updated for ${profile.major}. Deadlines synchronized.`);
+    updateProfile(formData);
+    setSavedMessage(true);
+    setTimeout(() => setSavedMessage(false), 3000);
   };
 
   return (
@@ -19,6 +20,11 @@ export default function ProfileView() {
         <p className="text-sm text-slate-400 leading-relaxed">
           Configure your academic core parameters. UniCortex will adapt its scheduling and code analysis based on these preferences.
         </p>
+        {savedMessage && (
+          <div className="mt-3 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium animate-pulse">
+            ✔ Configuration saved successfully! Global system synchronized.
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -29,8 +35,8 @@ export default function ProfileView() {
             <label className="text-xs text-slate-400">Academic Major</label>
             <input 
               type="text" 
-              value={profile.major}
-              onChange={(e) => setProfile({...profile, major: e.target.value})}
+              value={formData.major}
+              onChange={(e) => setFormData({...formData, major: e.target.value})}
               className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:border-cyan-500 outline-none"
             />
           </div>
@@ -39,13 +45,13 @@ export default function ProfileView() {
             <label className="text-xs text-slate-400">Focus Days (Work Days)</label>
             <input 
               type="text" 
-              value={profile.workDays}
-              onChange={(e) => setProfile({...profile, workDays: e.target.value})}
+              value={formData.workDays}
+              onChange={(e) => setFormData({...formData, workDays: e.target.value})}
               className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:border-cyan-500 outline-none"
             />
           </div>
 
-          <button className="w-full py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-sm transition-colors">
+          <button type="submit" className="w-full py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-sm transition-colors">
             Save Configuration
           </button>
         </form>
@@ -61,8 +67,8 @@ export default function ProfileView() {
           </div>
           
           <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span className="text-xs text-slate-400">Current AI Mode</span>
-            <h5 className="font-medium text-slate-200 text-sm mt-1">Autonomous Co-Pilot</h5>
+            <span className="text-xs text-slate-400">Active Profile Context</span>
+            <h5 className="font-medium text-cyan-400 text-sm mt-1">{profile.major} ({profile.workDays})</h5>
           </div>
         </div>
       </div>

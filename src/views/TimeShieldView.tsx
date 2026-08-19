@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useApp } from '../context/AppContext'; 
 
 export default function TimeShieldView() {
+  const { profile } = useApp(); 
   const [deadlines, setDeadlines] = useState([
     { id: 1, task: 'Database Final Project Submission', date: '2026-06-20', pressure: 'Critical' },
     { id: 2, task: 'Machine Learning Research Paper Draft', date: '2026-06-25', pressure: 'Moderate' },
@@ -22,7 +24,7 @@ export default function TimeShieldView() {
       <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 backdrop-blur-md">
         <h3 className="text-lg font-bold text-cyan-400 mb-2">⏳ Time Shield & Workload Heatmap</h3>
         <p className="text-sm text-slate-400 leading-relaxed">
-          The Time Shield analyzes your academic schedule to detect high-pressure stress points before burnout occurs.
+          Time Shield is actively monitoring schedules for <span className="text-cyan-300 font-medium">{profile.major}</span> based on focus days: {profile.workDays}.
         </p>
       </div>
 
