@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@source "./index.html";
+@source "./src";
+
+body {
+  @apply bg-slate-950 text-slate-100 antialiased;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
