@@ -51,6 +51,16 @@ export default function ProfileView() {
             />
           </div>
 
+          <div className="space-y-2">
+            <label className="text-xs text-slate-400">Target Deadline</label>
+            <input 
+              type="text" 
+              value={formData.deadline}
+              onChange={(e) => setFormData({...formData, deadline: e.target.value})}
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:border-cyan-500 outline-none"
+            />
+          </div>
+
           <button type="submit" className="w-full py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-sm transition-colors">
             Save Configuration
           </button>
@@ -69,6 +79,7 @@ export default function ProfileView() {
           <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
             <span className="text-xs text-slate-400">Active Profile Context</span>
             <h5 className="font-medium text-cyan-400 text-sm mt-1">{profile.major} ({profile.workDays})</h5>
+            <span className="text-xs text-slate-400 block mt-2">Target: {profile.deadline}</span>
           </div>
         </div>
       </div>
